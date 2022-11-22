@@ -1,2 +1,3 @@
-Assembly language
-practice files using Netwide Assembler (NASM)
+### Assembly language
+
+Netwide Assembler (NASM) syntax is used in these files.
