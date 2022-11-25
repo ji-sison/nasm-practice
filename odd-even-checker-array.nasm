@@ -1,7 +1,7 @@
 ;Sison, Ji
 
 section .data
-    arr dq  0, 2, 3, 10, 11 ;unsigned int can go up to 2^64 or 18,446,744,073,709,551,616
+    arr dq  18446744073709551610, 2, 3, 10, 11 ;unsigned int can go up to 2^64 or 18,446,744,073,709,551,616
     len equ $ - arr     
     
     odd db 'ODD', 0xa
@@ -10,8 +10,8 @@ section .data
     lastd db 0 ;last digits of an int in arr
     
 section .bss
-    index resb 1
-    count resb 1
+    index resd 1 ;will serve as pointer to next element in array
+    count resd 1 ;will serve as loop index
     
 section .text
     global _start
@@ -32,18 +32,18 @@ _start:
     
 
     loop_start:
-        inc eax 
         mov ebx, arr ;move arr address to ebx
+        mov edx, [ebx+eax] ;move int value from ebx to edx, [ebx+eax]move point to next element in arr
+        
+        add eax, 8 ;increments by 8, because qword uses 8 bytes
         mov [index], eax
         mov [count], ecx
         
+        cmp edx, 0 
+        je isZero ;if int is 0
         
-        mov edx, [ebx+8] ;move int value from ebx to edx
-          
-        cmp edx, 0
-        je isZero
         mov byte [lastd], dl ;last digits of that int is stored low register, dl, store that value in lastd
-      
+        
         ;using divisibility property of 2, if the last digits of a number is divisible by two then the whole number is also div by 2
         ;finding if the last digits of an int in arr is even is enough to determine if it is even or odd
         ;by this method we can avoid overflow and complex division when dealing with a large number
@@ -64,12 +64,12 @@ _start:
         mov ebx, 1
         mov eax, 4
         int 0x80
-        jmp continue
+    
         
         continue:
             mov eax, [index]
             mov ecx, [count]
-        loop loop_start
+            loop loop_start
         
             
      jmp exit  
