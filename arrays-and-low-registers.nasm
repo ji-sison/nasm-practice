@@ -1,4 +1,4 @@
-;this is makes the code simpler when performing operations on large int that only requires the last digits of that int
+;this makes the code simpler when performing operations on large int that only requires the last digits of that int
 ;e.g. a program that checks whether an int in an array is odd or even, or checks if an int is divisible by 4,5, or 10
 
 section .data
