@@ -1,17 +1,20 @@
 ;Sison, Ji
 
 section .data
-    arr dq  18446744073709551610, 2, 3, 10, 11 ;unsigned int can go up to 2^64 or 18,446,744,073,709,551,616
+    ;unsigned int can go up to 2^64 or 18,446,744,073,709,551,616
+    arr dq  18446744073709551610, 1844674407370955161, 18446744073709551612, 18446744073709551613, 184467440737095515,0 ,1 
     len equ $ - arr     
     
     odd db 'ODD', 0xa
     even db 'EVEN', 0xa 
     zero db 'ZERO', 0xa
+    sep db ', ', 0xa ;separator
+    
     lastd db 0 ;last digits of an int in arr
     
 section .bss
-    index resd 1 ;will serve as pointer to next element in array
-    count resd 1 ;will serve as loop index
+    index resd 1
+    count resd 1
     
 section .text
     global _start
@@ -23,9 +26,7 @@ _start:
     mov cx, 8
     div word cx
     
- 
     mov [count], al ;quotient stored in count for loop index
-    
     
     mov eax, 0
     mov ecx, [count] ;number of elements in arr1 as loop index
@@ -33,9 +34,9 @@ _start:
 
     loop_start:
         mov ebx, arr ;move arr address to ebx
-        mov edx, [ebx+eax] ;move int value from ebx to edx, [ebx+eax]move point to next element in arr
+        mov edx, [ebx+eax] ;move int value from ebx to edx
         
-        add eax, 8 ;increments by 8, because qword uses 8 bytes
+        add eax, 8 ;increments by 8  
         mov [index], eax
         mov [count], ecx
         
@@ -65,18 +66,29 @@ _start:
         mov eax, 4
         int 0x80
     
-        
         continue:
+            ;checks if it is the last int in the array, if so it will not print separator
+            mov ecx, [count]
+            cmp ecx, 1
+            je exit
+            
+            ;print separator
+            mov ecx, sep
+            mov edx, 2
+            mov ebx, 1
+            mov eax, 4
+            int 0x80
+            
             mov eax, [index]
             mov ecx, [count]
-            loop loop_start
+        loop loop_start
         
             
      jmp exit  
    ;end of loop         
  
  
- isEven:
+isEven:
         ;prints EVEN if int is even
         mov ecx, even
         mov edx, 4
