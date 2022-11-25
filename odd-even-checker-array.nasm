@@ -8,6 +8,9 @@ section .data
     even db 'EVEN', 0xa 
     lastd db 0 ;last digits
     
+    quo db 0
+    rem db 0
+    
 segment .bss
     count resb 1
     
@@ -28,7 +31,6 @@ _start:
     mov ecx, [count] ;number of elements in arr1 as loop index
     mov ebx, arr ;move arr address to ebx
 
-
         mov edx, [ebx]
         add edx, '0'
         mov [lastd], dl
@@ -36,11 +38,21 @@ _start:
         mov dx, 0
         mov ax, [lastd]
         mov cx, 2
-        div cx
+        div word cx
         
-        inc eax
-        add ebx, 8
-
+        
+    add ax, '0'     ;this is same as adding 48 to al, to display as ASCII
+    add dx, '0'
+    mov [quo], ax
+    mov [rem], dx
+        
+    
+    mov ecx, rem
+    mov edx, 1
+    mov ebx, 1
+    mov eax, 4
+    int 0x80
+    
     
     ;prints lenr
     mov ecx, count
