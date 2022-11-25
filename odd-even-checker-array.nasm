@@ -13,8 +13,9 @@ section .data
     lastd db 0 ;last digits of an int in arr
    
 section .bss
-    index resd 1
-    count resd 1
+    index resd 1 ;will serve as pointer to next element in array
+    count resd 1 ;will serve as loop index
+ 
    
 section .text
     global _start
@@ -34,7 +35,7 @@ _start:
         mov ebx, arr ;move arr address to ebx
         mov edx, [ebx+eax] ;move int value from ebx to edx, [ebx+eax] moves point to next element in arr
        
-        add eax, 8 ;increments by 8  
+        add eax, 8 ;increments by 8, because qword is 8 bytes 
         mov [index], eax
         mov [count], ecx
        
