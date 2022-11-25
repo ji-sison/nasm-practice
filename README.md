@@ -1,3 +1,3 @@
 ### Assembly language
 
-Netwide Assembler (NASM) syntax is used in these files.
+These files use 32-bit x86 Netwide Assembler (NASM) syntax.
