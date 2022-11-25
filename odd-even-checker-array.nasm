@@ -6,7 +6,7 @@ section .data
     
     odd db 'ODD', 0xa
     even db 'EVEN', 0xa 
-    lastd db 0 ;last digits
+    lastd db 0 ;last digits of an int in arr
     
     quo db 0
     rem db 0
@@ -40,13 +40,32 @@ _start:
         mov cx, 2
         div word cx
         
+        cmp dx, 0   ;remainder is stored at dx,
+        je isEven   ;if remainder equal zero then int is even else int is odd
         
-    add ax, '0'     ;this is same as adding 48 to al, to display as ASCII
-    add dx, '0'
-    mov [quo], ax
-    mov [rem], dx
+        mov ecx, odd
+        mov edx, 3
+        mov ebx, 1
+        mov eax, 4
+        int 0x80
+        jmp endif
         
-    
+ 
+ 
+ 
+ 
+isEven:
+    mov ecx, even
+    mov edx, 4
+    mov ebx, 1
+    mov eax, 4
+    int 0x80
+    jmp endif
+            
+
+
+
+endif:
     mov ecx, rem
     mov edx, 1
     mov ebx, 1
