@@ -16,32 +16,32 @@ section .text
 _start:
 
     ;len is divided by 8 to know how many elements are stored in msg
-    mov     ax, len
-    mov     cx, 8
-    div     word cx
+    mov ax, len
+    mov cx, 8
+    div word cx
     
-    add     al, '0'     ;quotient is stored in al register, added '0' to display in ASCII
-    mov     [lenr], al ;store quotient in lenr for printing
+    add al, '0'     ;quotient is stored in al register, added '0' to display in ASCII
+    mov [lenr], al ;store quotient in lenr for printing
     
     
-    mov     eax, [msg]  ;first element of array stored in eax
-    add     eax, '0'    ;added '0' to display in ASCII
-    mov     [msg], al   ;only access the low register of eax 
+    mov eax, [msg]  ;first element of array stored in eax
+    add eax, '0'    ;added '0' to display in ASCII
+    mov [msg], al   ;only access the low register of eax 
     
     ;prints lenr
-    mov     ecx, lenr
-    mov     edx, 1
-    mov     ebx, 1
-    mov     eax, 4
-    int     0x80
+    mov ecx, lenr
+    mov edx, 1
+    mov ebx, 1
+    mov eax, 4
+    int 0x80
     
     ;prints msg
-    mov     ecx, msg
-    mov     edx, 1
-    mov     ebx, 1
-    mov     eax, 4
-    int     0x80
+    mov ecx, msg
+    mov edx, 1
+    mov ebx, 1
+    mov eax, 4
+    int 0x80
 
 exit:
-    mov     eax, 1
-    int     0x80
+    mov eax, 1
+    int 0x80
